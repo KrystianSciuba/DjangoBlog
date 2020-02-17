@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ title }}{% endblock %}
+
+{% block content %}
+	<p>This is Contact Us page!</p>
+
+	<form>
+		<input type="text" name="full_name">
+		<input type="email" name="email">
+		<textarea name='content'></textarea>
+		<button type='submit'>Send</button>
+	</form>
+{% endblock %}

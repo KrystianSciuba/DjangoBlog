@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head_title %}List of posts{% endblock %}
+
+{% block content %}
+	<h1>Dziś:</h1>
+	{% for post in TodayList %}
+		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
+	{% endfor%}
+
+	<h1>Wczoraj:</h1>
+	{% for post in YesterdayList %}
+		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
+	{% endfor%}	
+
+	<h1>Bieżący miesiąc:</h1>
+	{% for post in MonthList %}
+		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
+	{% endfor%}	
+
+	<h1>Pozostałe posty:</h1>
+	{% for post in RestList %}
+		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
+	{% endfor%}	
+
+	<br><br><br><br><br>
+
+{% endblock %}

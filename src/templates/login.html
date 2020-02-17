@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ title }}{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<p>Witaj {{ user }}</p>
+		{% if user.is_superuser %}
+			<h1><a href="/admin/">SITE ADMINISTRATION</a></h1>
+		{% endif %}
+	{% endif %}
+	{% if not user.is_authenticated%}
+		<p>LOGIN</p>
+		<p>PASSWORD</p>
+	{% endif %}
+{% endblock %}

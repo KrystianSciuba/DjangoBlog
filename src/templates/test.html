@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ title }}{% endblock %}
+
+{% block content %}
+	<p>This is Test page!</p>
+	
+	user:
+
+	{{ user }}
+
+	
+
+	{% if user.is_authenticated %}
+		<p>{{ user }}, your data:</p>
+
+		{% for a in my_list %}
+		<li>{{a}}</li>
+		{% endfor %}
+
+	{% endif %}
+
+
+{% endblock %}
