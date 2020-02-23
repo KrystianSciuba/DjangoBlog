@@ -11,12 +11,12 @@ class BlogPostForm(forms.ModelForm):
 			'slug',
 			'content'
 			]
+			
 class BlogPostCommentForm(forms.ModelForm):
 	class Meta:
 		model=BlogPostComment
 		fields = [
 			'author',
-			'content',
-			'blogpost'
+			'content'
 			]
 		
