@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from blog.models import BlogPost
 from django.db import connection
@@ -34,11 +34,8 @@ def test_page(request):
 
 def newest_post_page(request):
 	with connection.cursor() as cursor:
-		cursor.execute("SELECT * FROM blog_blogpost ORDER BY pub_date DESC LIMIT 2")
-		rows = cursor.fetchone()
-		columns = [col[0] for col in cursor.description]
-		obj=dict(zip(columns, rows))
-	template_name = 'blog/detail.html'
-	context = {'object': obj}
-	return render(request, template_name, context)
+		cursor.execute("SELECT slug FROM blog_blogpost ORDER BY pub_date DESC LIMIT 1")
+		last_post=cursor.fetchone()
+		last_post_slug=last_post[0]
 
+		return redirect('blog_post_detail_view', slug=last_post_slug)

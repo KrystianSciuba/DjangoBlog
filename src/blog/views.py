@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db import connection
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from slugify import slugify
 from django.utils import timezone
+from django.db import IntegrityError
 
 import datetime
 
@@ -53,6 +54,13 @@ def blog_post_create(request):
 	if form.is_valid():
 		new_post=form.save(commit=False)
 		new_post.pub_date = timezone.now()
+		query_slug=slugify(new_post.title)+"%"
+		with connection.cursor() as cursor:
+			cursor.execute("SELECT COUNT(*) FROM blog_blogpost WHERE slug LIKE %(pattern)s", {'pattern': query_slug})
+			result=cursor.fetchone()
+			number=result[0]+1
+		new_slug=slugify(new_post.title)+"-"+str(number)
+		new_post.slug=new_slug
 		new_post.save()
 		return redirect('blog_post_detail_view', slug=new_post.slug)
 
