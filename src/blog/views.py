@@ -19,34 +19,43 @@ def blog_post_list_view(request):
 			self.title = title
 			self.slug = slug
 
+	now=datetime.datetime.now()
+	today=datetime.date.today()
+	yesterday=datetime.date.today()-datetime.timedelta(1)
+	first_of_month=datetime.date.today().replace(day=1)
+	if yesterday < first_of_month:
+		other_date=yesterday
+	else:
+		other_date=first_of_month
+
 	with connection.cursor() as cursor:
 
-		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE date(pub_date)=curdate() ORDER BY pub_date DESC")
+		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC", {'date1': today, 'date2': now})
 		rows = cursor.fetchall()
-		today=[]
+		todayPosts=[]
 		for row in rows:
-			today.append(Post(row[0],row[1]))
+			todayPosts.append(Post(row[0],row[1]))
 
-		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE date(pub_date)=subdate(curdate(), interval 1 day) ORDER BY pub_date DESC")
+		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC", {'date1': yesterday, 'date2': today})
 		rows = cursor.fetchall()
-		yesterday=[]
+		yesterdayPosts=[]
 		for row in rows:
-			yesterday.append(Post(row[0],row[1]))
+			yesterdayPosts.append(Post(row[0],row[1]))
 
-		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN SUBDATE(curdate(), INTERVAL DAYOFMONTH(curdate())-1 DAY) AND SUBDATE(curdate(), INTERVAL 1 DAY) ORDER BY pub_date DESC")
+		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC",{'date1': first_of_month, 'date2': yesterday})
 		rows = cursor.fetchall()
-		month=[]
+		monthPosts=[]
 		for row in rows:
-			month.append(Post(row[0],row[1]))
+			monthPosts.append(Post(row[0],row[1]))
 
-		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN 0 AND SUBDATE(curdate(), INTERVAL DAYOFMONTH(curdate())-1 DAY) ORDER BY pub_date DESC")
+		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN 0 AND %(date)s ORDER BY pub_date DESC",{'date': other_date})
 		rows = cursor.fetchall()
-		other=[]
+		otherPosts=[]
 		for row in rows:
-			other.append(Post(row[0],row[1]))			
+			otherPosts.append(Post(row[0],row[1]))			
 
 	template_name = 'blog/list.html'
-	context = {'TodayList': today, 'YesterdayList': yesterday, 'MonthList': month, 'OtherList': other}
+	context = {'TodayList': todayPosts, 'YesterdayList': yesterdayPosts, 'MonthList': monthPosts, 'OtherList': otherPosts}
 	return render(request, template_name, context)
 
 def blog_post_create(request):
