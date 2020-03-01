@@ -22,7 +22,7 @@ def blog_post_list_view(request):
 	now=datetime.datetime.now()
 	today=datetime.date.today()
 	yesterday=datetime.date.today()-datetime.timedelta(1)
-	first_of_month=datetime.date.today().replace(day=1)
+	first_of_month=today.replace(day=1)
 	if yesterday < first_of_month:
 		other_date=yesterday
 	else:
