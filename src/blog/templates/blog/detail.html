@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block user %}
+	{% if user.is_authenticated %}
+		{{user.username}}
+	{% endif %}
+
+	{% if not user.is_authenticated %}
+		LOG-IN
+	{% endif %}
+
+{% endblock %}
+
+
 {% block head_title %}{{ post.title }}{% endblock %}
 
 {% block content %}

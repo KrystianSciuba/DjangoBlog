@@ -23,7 +23,9 @@ from .views import (
 	example_page,
 	test_page,
     login_page,
-    newest_post_page
+    newest_post_page,
+    logout_page,
+    register_page
 )
 
 from blog.views import (
@@ -31,7 +33,7 @@ from blog.views import (
 )
 urlpatterns = [
 
-	path('', home_page),
+	path('', home_page, name="home_page"),
 	re_path(r'pages?/$', about_page),
 
     path('blog-new/', blog_post_create),
@@ -43,7 +45,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('example/', example_page),
     path('test/', test_page),
-    path('login/', login_page)
+    path('login/', login_page, name= "login"),
+    path('logout/', logout_page),
+    path('register/', register_page)
 
 ]
 

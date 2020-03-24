@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from blog.models import BlogPost
+from .forms import UserForm
 from django.db import connection
+from django.contrib.auth import authenticate, login, logout
 
 
 def home_page(request):
@@ -13,7 +15,40 @@ def about_page(request):
 	return render(request, "about.html",{"title":"About Us"})
 
 def login_page(request):
-	return render(request, "login.html",{"title":"log in"})
+	if request.method=='POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect ('home_page')
+		else:
+			return render(request, "login.html", {"message": "invalid credentials"})
+	else:
+		return render(request, "login.html", {"title": "LOG IN"})
+
+def register_page(request):
+	new_user_form = UserForm(request.POST or None)
+
+	if new_user_form.is_valid():
+		new_user=new_user_form.save(commit=False)
+		username=new_user_form.cleaned_data['username']
+		password=new_user_form.cleaned_data['password']
+		new_user.set_password(password)
+		new_user.save()
+
+		user=authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_authenticated:
+				login(request, user)
+				return redirect ('home_page')
+	template='register.html'
+	return render(request, template, {'new_user_form': new_user_form})
+
+
+def logout_page(request):
+	logout(request)
+	return redirect ('home_page')
 
 def contact_page(request):
 	return render(request, "contact.html",{"title":"Contact Us"})

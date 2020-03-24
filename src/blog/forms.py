@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import BlogPost, BlogPostComment
 
 
@@ -18,4 +17,3 @@ class BlogPostCommentForm(forms.ModelForm):
 			'author',
 			'content'
 			]
-		

@@ -1,16 +1,48 @@
 {% extends "base.html" %}
 
+{% block user %}
+	{% if user.is_authenticated %}
+		{{user.username}}
+	{% endif %}
+
+	{% if not user.is_authenticated %}
+		LOG-IN
+	{% endif %}
+
+{% endblock %}
+
+
+
+
 {% block head_title %}{{ title }}{% endblock %}
 
 {% block content %}
+
 	{% if user.is_authenticated %}
-		<p>Witaj {{ user }}</p>
+		<h2>Witaj {{ user }}</h>
+		
 		{% if user.is_superuser %}
-			<h1><a href="/admin/">SITE ADMINISTRATION</a></h1>
+			<h2><a href="/admin/"> ADMINISTRATION SITE</a></h1>
 		{% endif %}
+		<h2><a href="/logout/"> WYLOGUJ</a></h>
 	{% endif %}
+
 	{% if not user.is_authenticated%}
-		<p>LOGIN</p>
-		<p>PASSWORD</p>
+		<h1>Log in</h1>
+		<form  method="POST">
+		{% csrf_token %}
+		<input type="text" name="username" placeholder="username"><br>
+		<input type="password" name="password" placeholder="password"><br>
+		<input type='submit' value='LOG-IN'/>
+		</form>
+		<h2>{{message}}</h2>
+		<h2>or</h>
+		<h2><a href="/register/"> CREATE AN ACCOUNT</a></h>
 	{% endif %}
+
+
+
+
+
 {% endblock %}
+
