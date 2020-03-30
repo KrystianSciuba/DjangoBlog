@@ -37,7 +37,8 @@ urlpatterns = [
 
     path('blog-new/', blog_post_create),
     path('blog/', include('blog.urls')),
-    
+    path('user/', include('user.urls')),
+
     path('newest-post/', newest_post_page),    
 	path('about/', about_page),
 	path('contact/', contact_page),

@@ -6,6 +6,9 @@ from django.urls import reverse
 from slugify import slugify
 from django.utils import timezone
 from django.db import IntegrityError
+from django.contrib.auth import authenticate,  is_authenticated
+from django.contrib.auth.models import User
+
 
 import datetime
 
@@ -63,6 +66,7 @@ def blog_post_create(request):
 	if form.is_valid():
 		new_post=form.save(commit=False)
 		new_post.pub_date = timezone.now()
+		new_post.author=request.user
 		query_slug=slugify(new_post.title)+"%"
 		with connection.cursor() as cursor:
 			cursor.execute("SELECT COUNT(*) FROM blog_blogpost WHERE slug LIKE %(pattern)s", {'pattern': query_slug})
@@ -85,6 +89,7 @@ def blog_post_detail_view(request, slug):
 			self.pub_date = pub_date
 
 	post = get_object_or_404(BlogPost, slug=slug)
+	author = get_object_or_404(User, id=post.author_id)
 
 	with connection.cursor() as cursor:
 		cursor.execute("SELECT author, content, pub_date FROM blog_blogpostcomment WHERE blogpost_id=%(id)s ORDER BY pub_date DESC", { 'id': post.id })
@@ -102,7 +107,7 @@ def blog_post_detail_view(request, slug):
 		return redirect('blog_post_detail_view', slug=post.slug)
 
 	template_name = 'blog/detail.html'
-	context = {'post': post,'comments':comments, 'form': form}
+	context = {'post': post,'comments':comments, 'form': form, 'author':author}
 	return render(request, template_name, context)
 
 

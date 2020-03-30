@@ -14,6 +14,7 @@ class BlogPost(models.Model):
 	slug = models.SlugField(unique=True)
 	content = models.TextField(null=True, blank=True)
 	pub_date = models.DateTimeField()
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 class BlogPostComment(models.Model):
 	id = models.AutoField(primary_key=True)
