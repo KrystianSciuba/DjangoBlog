@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class BlogConfig(AppConfig):
-    name = 'user'
+    name = 'users'

@@ -6,7 +6,6 @@ from django.urls import reverse
 from slugify import slugify
 from django.utils import timezone
 from django.db import IntegrityError
-from django.contrib.auth import authenticate,  is_authenticated
 from django.contrib.auth.models import User
 
 
