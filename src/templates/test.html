@@ -1,38 +1,17 @@
 {% extends "base.html" %}
 
-{% block user %}
-	{% if user.is_authenticated %}
-		{{user.username}}
-	{% endif %}
-
-	{% if not user.is_authenticated %}
-		LOG-IN
-	{% endif %}
-
+{% block head_title %}
+	Test page
 {% endblock %}
-
-
-
-
-{% block head_title %}Test page{% endblock %}
 
 {% block content %}
 	<p>This is Test page!</p>
-	
 	user:
-
 	{{ user }}
-
-	
-
 	{% if user.is_authenticated %}
 		<p>{{ user }}, your data:</p>
-
 		{% for a in my_list %}
-		<li>{{a}}</li>
+			<li>{{a}}</li>
 		{% endfor %}
-
 	{% endif %}
-
-
 {% endblock %}

@@ -1,44 +1,26 @@
 {% extends "base.html" %}
 
-{% block user %}
-	{% if user.is_authenticated %}
-		{{user.username}}
-	{% endif %}
-
-	{% if not user.is_authenticated %}
-		LOG-IN
-	{% endif %}
-
+{% block head_title %}
+	{{ post.title }}
 {% endblock %}
 
-
-{% block head_title %}{{ post.title }}{% endblock %}
-
 {% block content %}
-	
 	<h1>{{ post.title }}</h1>
 	<h2><a href= "/user/{{author.username}}">{{ author.username }}</a><h2>
 	<p>{{ post.content }}</p>
 	<p>{{ post.pub_date }}</p>
 	<br>
-	
-	
 	<h1>Komentarze:</h1>
-
 	{% for obj in comments %}
 		<li> <b>{{obj.author}}</b><br>
 		{{obj.content}}</a><br>
 		{{obj.pub_date}}</a></li>
 		<br>
 	{% endfor%}	
-
 	<h1>Dodaj komentarz:</h1>
-	<form method="POST"> {% csrf_token %}
+	<form method="POST">
+	{% csrf_token %}
 	{{ form.as_p }}
 	<input type='submit' value='Save' />
 	</form>
-	
-	
-
-
 {% endblock %}

@@ -1,23 +1,9 @@
 {% extends "base.html" %}
 
-{% block user %}
-	{% if user.is_authenticated %}
-		{{user.username}}
-	{% endif %}
-
-	{% if not user.is_authenticated %}
-		LOG-IN
-	{% endif %}
-
+{% block head_title %}
+	Create a new post
 {% endblock %}
 
-
-
-
-{% block head_title %}Create a new post{% endblock %}
-
 {% block content %}
-	
 	<h1>Create a new post!!!</h1>
-
 {% endblock %}

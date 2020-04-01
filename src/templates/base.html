@@ -31,7 +31,18 @@
           <div class="social_media">  <a href="https://www.bloglovin.com/"  class="tilelink"  target="_blank">BLOGLOVIN'</a>          </div>
           <div class="social_media">  <a href="https://www.reddit.com/"     class="tilelink"  target="_blank">REDDIT</a>              </div>
           <div class="social_media">                                                                                                  </div>
-          <div class="social_media" style="text-align: right;"><a href="http://127.0.0.1:8000/login/" class="tilelink">{% block user %} {% endblock %} </a>     </div>   
+          <div class="social_media" style="text-align: right;">
+            <a href="http://127.0.0.1:8000/login/" class="tilelink">
+              {% block user %}
+                {% if user.is_authenticated %}
+                  {{user.username}}
+                {% endif %}
+                {% if not user.is_authenticated %}
+                  LOG-IN
+                {% endif %}
+              {% endblock %} 
+            </a>
+          </div>   
           <div style="clear:both;"></div>
          </div>    
         <div style="clear:both;"></div>

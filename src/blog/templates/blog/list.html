@@ -1,20 +1,8 @@
 {% extends "base.html" %}
 
-{% block user %}
-	{% if user.is_authenticated %}
-		{{user.username}}
-	{% endif %}
-
-	{% if not user.is_authenticated %}
-		LOG-IN
-	{% endif %}
-
+{% block head_title %}
+	List of posts
 {% endblock %}
-
-
-
-
-{% block head_title %}List of posts{% endblock %}
 
 {% block content %}
 	<h1>Dziś:</h1>

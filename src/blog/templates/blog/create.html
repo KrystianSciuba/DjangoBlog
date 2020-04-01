@@ -1,20 +1,8 @@
 {% extends "base.html" %}
 
-{% block user %}
-	{% if user.is_authenticated %}
-		{{user.username}}
-	{% endif %}
-
-	{% if not user.is_authenticated %}
-		LOG-IN
-	{% endif %}
-
+{% block head_title %}
+	Create a new post
 {% endblock %}
-
-
-
-
-{% block head_title %}Create a new post{% endblock %}
 
 {% block content %}
 	{% if user.is_authenticated %}
@@ -24,12 +12,9 @@
 		<input type='submit' value='Save' />
 		</form>
 	{% endif %}
-
 	{% if not user.is_authenticated %}
 		<h2><a href="/login/"> ZALOGUJ SIĘ BY DODAĆ WPIS</a></h>
 	{% endif %}
-
-
 {% endblock %}
 
 
