@@ -14,19 +14,22 @@ def about_page(request):
 	return render(request, template)
 
 def login_page(request):
-	template="login.html"
-	if request.method=='POST':
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(username=username, password=password)
-		if user is not None:
-			login(request, user)
-			return redirect ('login')
-		else:
-			message={"message": "invalid credentials"}
-			return render(request, template, message)
+	if request.user.is_authenticated:
+		return redirect ('home_page')
 	else:
-		return render(request, template)
+		template="login.html"
+		if request.method=='POST':
+			username = request.POST['username']
+			password = request.POST['password']
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				login(request, user)
+				return redirect ('login')
+			else:
+				message={"message": "invalid credentials"}
+				return render(request, template, message)
+		else:
+			return render(request, template)
 
 def register_page(request):
 	template='register.html'

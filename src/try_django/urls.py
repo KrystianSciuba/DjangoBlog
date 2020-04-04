@@ -30,6 +30,10 @@ from .views import (
 from blog.views import (
     blog_post_create
 )
+
+from users.views import (
+    settings_page
+)
 urlpatterns = [
 
 	path('', home_page, name="home_page"),
@@ -39,6 +43,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('user/', include('users.urls')),
 
+    path('settings', settings_page),
     path('newest-post/', newest_post_page),    
 	path('about/', about_page),
 	path('contact/', contact_page),

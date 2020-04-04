@@ -5,4 +5,5 @@ from .views import (
 
 urlpatterns = [
     path('<str:username>/', user_page_view, name="userpage")
+    
     ]

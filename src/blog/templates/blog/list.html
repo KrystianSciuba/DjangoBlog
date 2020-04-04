@@ -6,25 +6,31 @@
 
 {% block content %}
 	<h1>Dziś:</h1>
+	<ul>
 	{% for post in TodayList %}
 		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
 	{% endfor%}
-
+	</ul>
+	
 	<h1>Wczoraj:</h1>
+	<ul>
 	{% for post in YesterdayList %}
 		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
 	{% endfor%}	
-
+	</ul>
+	
 	<h1>Bieżący miesiąc:</h1>
+	<ul>
 	{% for post in MonthList %}
 		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
 	{% endfor%}	
-
+	</ul>
+	
 	<h1>Pozostałe posty:</h1>
+	<ul>
 	{% for post in OtherList %}
 		<li> <a href= {{post.slug}}>{{ post.title }}</a></li>
 	{% endfor%}	
-
-	<br><br><br><br><br>
+	</ul>
 
 {% endblock %}

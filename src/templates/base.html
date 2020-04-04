@@ -22,7 +22,7 @@
   <body style="overflow: scroll;">
     <div id="header">
         <div id="social_media_container">
-          <div class="social_media" style="text-align: left;"><a href="http://127.0.0.1:8000/blog-new/" class="tilelink">NEW POST</a> </div>
+          <div class="social_media" style="text-align: left;"><a href="/blog-new/" class="tilelink">NEW POST</a> </div>
           <div class="social_media">                                                                                                  </div>
           <div class="social_media">  <a href="https://www.instagram.com/"  class="tilelink"  target="_blank">INSTAGRAM</a>           </div>
           <div class="social_media">  <a href="https://www.pinterest.com/"  class="tilelink"  target="_blank">PINTEREST</a>           </div>
@@ -31,18 +31,21 @@
           <div class="social_media">  <a href="https://www.bloglovin.com/"  class="tilelink"  target="_blank">BLOGLOVIN'</a>          </div>
           <div class="social_media">  <a href="https://www.reddit.com/"     class="tilelink"  target="_blank">REDDIT</a>              </div>
           <div class="social_media">                                                                                                  </div>
-          <div class="social_media" style="text-align: right;">
-            <a href="http://127.0.0.1:8000/login/" class="tilelink">
-              {% block user %}
-                {% if user.is_authenticated %}
-                  {{user.username}}
-                {% endif %}
-                {% if not user.is_authenticated %}
-                  LOG-IN
-                {% endif %}
-              {% endblock %} 
-            </a>
-          </div>   
+          {% if user.is_authenticated %}
+            <div class="dropdown" style="text-align: right;">
+              <button class="dropbtn">{{user.username}}</button>
+              <div class="dropdown-content">
+                <a href="/user/{{user.username}}/">MY BLOG</a>
+                <a href="/settings">SETTINGS</a>
+                <a href="/logout/">LOG OUT</a>
+              </div>
+            </div> 
+          {% endif %}
+          {% if not user.is_authenticated %}
+            <div class="social_media" style="text-align: right;">
+              <a href="/login/" class="tilelink">LOG-IN</a>
+            </div>
+          {% endif %}
           <div style="clear:both;"></div>
          </div>    
         <div style="clear:both;"></div>
@@ -53,7 +56,7 @@
   	<div id="container">
       <div style="height: 50px;"></div>
         <div id="blog_title">
-          <a href="http://127.0.0.1:8000/">THE DAILY DISH</a>
+          <a href="/">THE DAILY DISH</a>
         </div>
         <div id="blog_motto">
           Random fancy text, lorem ipsum, lorem ipsum 
@@ -61,11 +64,11 @@
       <div style="height: 50px;"></div>
       <div id="menu_bar">
         <div id="option_container"> 
-          <div class="option"><a href="http://127.0.0.1:8000/test/">TEST</a></div>
-          <div class="option"><a href="http://127.0.0.1:8000/blog/">BLOG</a></div>
-          <div class="option"><a href="http://127.0.0.1:8000/newest-post">NEWEST POST</a></div>
-          <div class="option"><a href="http://127.0.0.1:8000/about/">ABOUT</a></div>
-          <div class="option"><a href="http://127.0.0.1:8000/contact/">CONTACT PAGE</a></div>   
+          <div class="option"><a href="/test/">TEST</a></div>
+          <div class="option"><a href="/blog/">BLOG</a></div>
+          <div class="option"><a href="/newest-post">NEWEST POST</a></div>
+          <div class="option"><a href="/about/">ABOUT</a></div>
+          <div class="option"><a href="/contact/">CONTACT PAGE</a></div>   
           <div style="clear:both;"></div>
         </div>
       </div>
