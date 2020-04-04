@@ -118,7 +118,13 @@ def blog_post_update_view(request, slug):
 	return render(request, template_name, context)
 
 def blog_post_delete_view(request, slug):
-	obj = get_object_or_404(BlogPost, slug=slug)
-	template_name = 'blog/delete.html'
-	context = {'object': obj}
-	return render(request, template_name, context)
+	post = get_object_or_404(BlogPost, slug=slug)
+	if request.user.id==post.author_id:
+		if request.method == 'POST':
+			post.delete()
+			return redirect ('userpage', username=request.user.username)
+		template_name = 'blog/delete.html'
+		context = {'object': post}
+		return render(request, template_name, context)
+	else:
+		return redirect('blog_post_detail_view', slug=post.slug)

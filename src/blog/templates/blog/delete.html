@@ -5,5 +5,14 @@
 {% endblock %}
 
 {% block content %}
-	<h1>{{ object.title }} - DELETE POST?</h1>
+	<p1>{{ object.title }} <br> Do you want to delete this post?</p1>
+	
+	<form method="POST"> {% csrf_token %}
+		<input type="submit" value="YES">
+	</form>
+
+	<form action="/blog/{{object.slug}}">
+    	<input type="submit" value="NO" />
+	</form>
+
 {% endblock %}
