@@ -6,8 +6,24 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def home_page(request):
+	class Post(object):
+		def __init__(self, title, slug, pub_date, content):
+			self.title = title
+			self.slug = slug
+			self.pub_date = pub_date
+			self.content = content
+
+	with connection.cursor() as cursor:
+
+		cursor.execute("SELECT title, slug, pub_date, content  FROM blog_blogpost ORDER BY pub_date DESC LIMIT 5")
+		rows = cursor.fetchall()
+		posts=[]
+		for row in rows:
+			posts.append(Post(row[0],row[1],row[2],row[3]))
+
 	template="home.html"
-	return render(request, template)
+	context = {'posts': posts}
+	return render(request, template, context)
 
 def about_page(request):
 	template="about.html"

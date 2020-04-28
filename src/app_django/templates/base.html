@@ -1,84 +1,54 @@
 <!doctype html>
-
 {% load static %}
-
 <html lang="en">
   <head>
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}"> 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,900&display=swap&subset=latin-ext" rel="stylesheet"> 
-
-
+    
     <title>{% block head_title %} {% endblock %}</title>
-
-
-
   </head>
-
   <body style="overflow: scroll;">
     <div id="header">
-        <div id="social_media_container">
-          <div class="social_media" style="text-align: left;"><a href="/blog-new/" class="tilelink">NEW POST</a> </div>
-          <div class="social_media">                                                                                                  </div>
-          <div class="social_media">  <a href="https://www.instagram.com/"  class="tilelink"  target="_blank">INSTAGRAM</a>           </div>
-          <div class="social_media">  <a href="https://www.pinterest.com/"  class="tilelink"  target="_blank">PINTEREST</a>           </div>
-          <div class="social_media">  <a href="https://www.facebook.com/"   class="tilelink"  target="_blank">FACEBOOK</a>            </div>
-          <div class="social_media">  <a href="https://www.twitter.com/"    class="tilelink"  target="_blank">TWITTER</a>             </div>
-          <div class="social_media">  <a href="https://www.bloglovin.com/"  class="tilelink"  target="_blank">BLOGLOVIN'</a>          </div>
-          <div class="social_media">  <a href="https://www.reddit.com/"     class="tilelink"  target="_blank">REDDIT</a>              </div>
-          <div class="social_media">                                                                                                  </div>
+      <div id="header_container">
+        <div id="logo_container"><a href="/"><img id="logo" src="{% static 'css/img/logo.png' %}"></a></div>
+        <div id="header_button_container">
+          <button class="header_button">
+            {% if user.is_authenticated %}
+              <a href="/blog-new/">NEW POST</a>
+            {% endif %}
+          </button>
+          <button class="header_button"><a href="/blog/">BLOG</a></button>
+          <button class="header_button"><a href="/contact/">CONTACT</a></button>          
+          <button class="header_button"><a href="/about/">ABOUT</a></button>
           {% if user.is_authenticated %}
-            <div class="dropdown" style="text-align: right;">
-              <button class="dropbtn">{{user.username}}</button>
-              <div class="dropdown-content">
-                <a href="/user/{{user.username}}/">MY BLOG</a>
-                <a href="/settings">SETTINGS</a>
-                <a href="/logout/">LOG OUT</a>
-              </div>
-            </div> 
-          {% endif %}
-          {% if not user.is_authenticated %}
-            <div class="social_media" style="text-align: right;">
-              <a href="/login/" class="tilelink">LOG-IN</a>
+          <div class="dropdown">
+            <button class="header_button">MY BLOG</button>
+            <div class="dropdown-content">
+              <a href="/user/{{user.username}}/">{{user.username}}</a>
+              <a href="/settings">SETTINGS</a>
+              <a href="/logout">LOGOUT</a>
             </div>
+          </div>
+          {% else %}
+            <button class="header_button">
+              <a href="/login/">LOGIN</a>
+            </button>
           {% endif %}
-          <div style="clear:both;"></div>
-         </div>    
-        <div style="clear:both;"></div>
-    </div>
-
-    <div style="height: 50px;"></div>
-
-  	<div id="container">
-      <div style="height: 50px;"></div>
-        <div id="blog_title">
-          <a href="/">THE DAILY DISH</a>
-        </div>
-        <div id="blog_motto">
-          Random fancy text, lorem ipsum, lorem ipsum 
-        </div>
-      <div style="height: 50px;"></div>
-      <div id="menu_bar">
-        <div id="option_container"> 
-          <div class="option"><a href="/test/">TEST</a></div>
-          <div class="option"><a href="/blog/">BLOG</a></div>
-          <div class="option"><a href="/newest-post">NEWEST POST</a></div>
-          <div class="option"><a href="/about/">ABOUT</a></div>
-          <div class="option"><a href="/contact/">CONTACT PAGE</a></div>   
-          <div style="clear:both;"></div>
         </div>
       </div>
-
+    </div>
+    <div id="container">
+      {% block main_picture %}
+      {% endblock %}
       <div id="content">
         <div>
-            {% block content %}
-            
-            {% endblock %}       
- 
+          {% block content %}
+          {% endblock %}       
         </div>
       </div>
       <div id="side_bar">

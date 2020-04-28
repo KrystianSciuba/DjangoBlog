@@ -1,11 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block head_title %}
 	Home page
 {% endblock %}
 
+{% block main_picture %}
+    <div id="main_picture_container">
+    	<img id="main_picture" src="{% static 'css/img/rollingfog.jpg' %}">
+    </div>
+{% endblock %}
+
+
 {% block content %}
-	<p>This is Home Page!</p>
-	{{ title }}
-	{{ user }}
+	<ul id="main_page_list">
+		{% for post in posts %}
+			<li>
+				<strong><a href=/blog/{{post.slug}}>{{post.title}}</a></strong>
+				<small>{{post.pub_date}}</small><br>
+				{{post.content}}<br><br>				
+			</li>
+		{% endfor %}
+	</ul>
 {% endblock %}
