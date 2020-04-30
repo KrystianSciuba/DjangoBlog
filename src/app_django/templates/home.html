@@ -16,9 +16,12 @@
 	<ul id="main_page_list">
 		{% for post in posts %}
 			<li>
-				<strong><a href=/blog/{{post.slug}}>{{post.title}}</a></strong>
-				<small>{{post.pub_date}}</small><br>
-				{{post.content}}<br><br>				
+				<a href=/blog/{{post.slug}}>
+					<h2>{{post.title}}</h2>
+					<small>{{post.pub_date}}</small>
+					<p>{{post.content}}<p>
+				</a> 
+				<hr>	
 			</li>
 		{% endfor %}
 	</ul>

@@ -19,7 +19,7 @@ def home_page(request):
 		rows = cursor.fetchall()
 		posts=[]
 		for row in rows:
-			posts.append(Post(row[0],row[1],row[2],row[3]))
+			posts.append(Post(row[0],row[1],row[2],row[3][:350]))
 
 	template="home.html"
 	context = {'posts': posts}
