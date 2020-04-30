@@ -24,13 +24,20 @@ body {
 #logo {
 	height: 60px;
 }
- 
-#header_button_container {	
+
+#header_buttons_container{
 	float: right;
 	width: 50%;
 }
 
-.header_button {
+ 
+#buttons_container {	
+	float: right;
+	width: 80%;
+}
+
+
+.header_button{
 	float: left;
 	width: 20%;
 	min-width: 120px;
@@ -46,13 +53,14 @@ body {
 	cursor: pointer;
 }
 
+
 .header_button:hover {
 	color: lightgreen;
 }
 
 .dropdown {
-	float: left;
-	width: 120px;
+	float: right;
+	width: 25%;
 	margin: 0;
 
 	background-color: inherit;

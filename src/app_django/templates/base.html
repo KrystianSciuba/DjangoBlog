@@ -15,15 +15,14 @@
   <body style="overflow: scroll;">
     <div id="header">
       <div id="header_container">
-        <div id="logo_container"><a href="/"><img id="logo" src="{% static 'css/img/logo.png' %}"></a></div>
-        <div id="header_button_container">
-
-          <button class="header_button">
-            {% if user.is_authenticated %}
-              <a href="/blog-new/">NEW POST</a>
-            {% endif %}
-          </button>
-          
+        <div id="logo_container">
+          <a href="/"><img id="logo" src="{% static 'css/img/logo.png' %}"></a>
+        </div>
+        <div id="header_buttons_container">
+          {% if user.is_authenticated %}
+            <a href="/blog-new/"><button class="header_button">NEW POST</button></a>
+          {% endif %}
+        <div id="buttons_container">
           <a href="/blog/"><button class="header_button">BLOG</button></a>
           <a href="/contact/"><button class="header_button">CONTACT</button></a>
           <a href="/about/"><button class="header_button">ABOUT</button></a>
@@ -41,6 +40,7 @@
               <a href="/login/">LOGIN</a>
             </button>
           {% endif %}
+        </div>
         </div>
       </div>
     </div>
