@@ -7,7 +7,7 @@ from slugify import slugify
 from django.utils import timezone
 from django.db import IntegrityError
 from django.contrib.auth.models import User
-
+from collections import namedtuple
 
 import datetime
 
@@ -15,11 +15,14 @@ import datetime
 from .forms import BlogPostForm, BlogPostCommentForm
 from .models import BlogPost, BlogPostComment
 
+def namedtuplefetchall(cursor):
+    "Return all rows from a cursor as a namedtuple"
+    desc = cursor.description
+    nt_result = namedtuple('Result', [col[0] for col in desc])
+    return [nt_result(*row) for row in cursor.fetchall()]
+
+
 def blog_post_list_view(request):
-	class Post(object):
-		def __init__(self, title, slug):
-			self.title = title
-			self.slug = slug
 
 	now=datetime.datetime.now()
 	today=datetime.date.today()
@@ -33,28 +36,16 @@ def blog_post_list_view(request):
 	with connection.cursor() as cursor:
 
 		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC", {'date1': today, 'date2': now})
-		rows = cursor.fetchall()
-		todayPosts=[]
-		for row in rows:
-			todayPosts.append(Post(row[0],row[1]))
+		todayPosts = namedtuplefetchall(cursor)
 
 		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC", {'date1': yesterday, 'date2': today})
-		rows = cursor.fetchall()
-		yesterdayPosts=[]
-		for row in rows:
-			yesterdayPosts.append(Post(row[0],row[1]))
+		yesterdayPosts = namedtuplefetchall(cursor)
 
 		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN %(date1)s AND %(date2)s ORDER BY pub_date DESC",{'date1': first_of_month, 'date2': yesterday})
-		rows = cursor.fetchall()
-		monthPosts=[]
-		for row in rows:
-			monthPosts.append(Post(row[0],row[1]))
+		monthPosts = namedtuplefetchall(cursor)
 
 		cursor.execute("SELECT title, slug FROM blog_blogpost WHERE pub_date BETWEEN 0 AND %(date)s ORDER BY pub_date DESC",{'date': other_date})
-		rows = cursor.fetchall()
-		otherPosts=[]
-		for row in rows:
-			otherPosts.append(Post(row[0],row[1]))			
+		otherPosts = namedtuplefetchall(cursor)
 
 	template_name = 'blog/list.html'
 	context = {'TodayList': todayPosts, 'YesterdayList': yesterdayPosts, 'MonthList': monthPosts, 'OtherList': otherPosts}
@@ -92,10 +83,10 @@ def blog_post_detail_view(request, slug):
 
 	with connection.cursor() as cursor:
 		cursor.execute("SELECT author, content, pub_date FROM blog_blogpostcomment WHERE blogpost_id=%(id)s ORDER BY pub_date DESC", { 'id': post.id })
-		rows = cursor.fetchall()
+		results = cursor.fetchall()
 		comments=[]
-		for row in rows:
-			comments.append(Comment(author=row[0], content=row[1], pub_date=row[2]))
+		for result in results:
+			comments.append(Comment(author=result[0], content=result[1], pub_date=result[2]))
 
 	form = BlogPostCommentForm(request.POST or None)
 	if form.is_valid():
